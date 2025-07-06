@@ -1,5 +1,4 @@
 package aed;
-
 import aed.Heap.Handle;
 
 public class Usuarios {
@@ -8,23 +7,20 @@ public class Usuarios {
 
     @SuppressWarnings("unchecked")
     public Usuarios(int cantUsuarios) {
-        Usuario[] usuarios = new Usuario[cantUsuarios];
-
         this.usuarios = (Heap<Usuario>.Handle[]) new Heap.Handle[cantUsuarios];
         this.heap = new Heap<>();
 
         for (int i = 0; i < cantUsuarios; i++) {
             Usuario u = new Usuario(i + 1);
-            usuarios[i] = u;
+            this.usuarios[i] = heap.agregar(u);
         }
-        this.heap = new Heap(usuarios);
-
     }
 
     public void actualizarUsuario(int id, int montoASumar) {
-        Usuario u = usuarios[id - 1].getValor();
+        Heap<Usuario>.Handle handle = usuarios[id - 1];
+        Usuario u = handle.getValor();
         u.aumentarSaldo(montoASumar);
-        heap.heapify(usuarios[id-1].getIndice());
+        heap.reubicar(handle);
     }
 
     public int maximoTenedor() {

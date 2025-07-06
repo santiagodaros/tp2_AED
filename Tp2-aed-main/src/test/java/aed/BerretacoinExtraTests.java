@@ -470,11 +470,11 @@ public class BerretacoinExtraTests {
         new Transaccion(2, 1, 2, 500)
     });
     
-    assertEquals(2, bc.maximoTenedor()); // Usuario 2 tiene 500
+    assertEquals(1, bc.maximoTenedor()); // Usuario 2 tiene 500 y Usuario 1 tambien --> gana usuario 1
     
-    bc.hackearTx(); // Revierte la transacción de 500
+    bc.hackearTx(); // Revierte la transacción de 1000
     
-    assertEquals(1, bc.maximoTenedor()); // Usuario 1 vuelve a tener 1000
+    assertEquals(2, bc.maximoTenedor()); // Usuario 1 tiene -500 --> gana usuario 2
 }
 
 }

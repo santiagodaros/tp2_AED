@@ -13,7 +13,7 @@ public class Bloque {
         this.heap = new Heap<>();
         ArrayList<ListaEnlazada<Transaccion>.Handle> handles = new ArrayList<>();
         for (Transaccion tx : transacciones) {
-            Transaccion.Handle handle = this.transacciones.agregar(tx);
+            ListaEnlazada<Transaccion>.Handle handle = this.transacciones.agregar(tx);
             tx.setHandle(handle);
             handles.add(handle);
 
