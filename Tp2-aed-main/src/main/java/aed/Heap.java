@@ -2,17 +2,43 @@ package aed;
 import java.util.ArrayList;
 
 public class Heap<T extends Comparable<T>> {
-    private ArrayList<Handle> datos;
+    private ArrayList<Nodo> heap;
+
+    private class Nodo {
+        T valor;
+        int indice;
+
+        Nodo(T valor, int indice) {
+            this.valor = valor;
+            this.indice = indice;
+        }
+    }
+
+    public class Handle {
+        private Nodo nodo;
+
+        private Handle(Nodo nodo) {
+            this.nodo = nodo;
+        }
+
+        public T getValor() {
+            return nodo.valor;
+        }
+
+        public int getIndice() {
+            return nodo.indice;
+        }
+    }
 
     public Heap() {
-        datos = new ArrayList<>();
+        heap = new ArrayList<>();
     }
 
     public Heap(T[] arreglo) {
-        datos = new ArrayList<>();
+        heap = new ArrayList<>();
         for (T elem : arreglo) {
-            Handle handle = new Handle(elem, datos.size());
-            datos.add(handle);
+            Nodo nodo = new Nodo(elem, heap.size());
+            heap.add(nodo);
         }
         construirHeap();
     }
@@ -21,47 +47,29 @@ public class Heap<T extends Comparable<T>> {
     private int hijoIzq(int i) { return 2 * i + 1; }
     private int hijoDer(int i) { return 2 * i + 2; }
 
-    public class Handle {
-        private T valor;
-        private int indice;
-
-        private Handle(T valor, int indice) {
-            this.valor = valor;
-            this.indice = indice;
-        }
-
-        public T getValor() {
-            return valor;
-        }
-
-        public int getIndice() {
-            return indice;
-        }
-    }
-
     public Handle agregar(T valor) {
-        Handle handle = new Handle(valor, datos.size());
-        datos.add(handle);
-        heapifyUp(datos.size() - 1);
-        return handle;
+        Nodo nodo = new Nodo(valor, heap.size());
+        heap.add(nodo);
+        heapifyUp(heap.size() - 1);
+        return new Handle(nodo);
     }
 
     public T verMaximo() {
-        return datos.isEmpty() ? null : datos.get(0).valor;
+        return heap.isEmpty() ? null : heap.get(0).valor;
     }
 
     public T sacarMaximo() {
-        if (datos.isEmpty()) return null;
-        Handle maxHandle = datos.get(0);
-        if (datos.size() == 1) {
-            datos.remove(0);
-            return maxHandle.valor;
+        if (heap.isEmpty()) return null;
+        Nodo maxNodo = heap.get(0);
+        if (heap.size() == 1) {
+            heap.remove(0);
+            return maxNodo.valor;
         }
-        Handle ultimo = datos.remove(datos.size() - 1);
-        datos.set(0, ultimo);
+        Nodo ultimo = heap.remove(heap.size() - 1);
+        heap.set(0, ultimo);
         ultimo.indice = 0;
         heapifyDown(0);
-        return maxHandle.valor;
+        return maxNodo.valor;
     }
 
     private void heapifyDown(int i) {
@@ -69,10 +77,10 @@ public class Heap<T extends Comparable<T>> {
         int izq = hijoIzq(i);
         int der = hijoDer(i);
 
-        if (izq < datos.size() && datos.get(izq).valor.compareTo(datos.get(max).valor) > 0) {
+        if (izq < heap.size() && heap.get(izq).valor.compareTo(heap.get(max).valor) > 0) {
             max = izq;
         }
-        if (der < datos.size() && datos.get(der).valor.compareTo(datos.get(max).valor) > 0) {
+        if (der < heap.size() && heap.get(der).valor.compareTo(heap.get(max).valor) > 0) {
             max = der;
         }
 
@@ -85,7 +93,7 @@ public class Heap<T extends Comparable<T>> {
     private void heapifyUp(int i) {
         while (i > 0) {
             int p = padre(i);
-            if (datos.get(i).valor.compareTo(datos.get(p).valor) > 0) {
+            if (heap.get(i).valor.compareTo(heap.get(p).valor) > 0) {
                 swap(i, p);
                 i = p;
             } else {
@@ -95,29 +103,29 @@ public class Heap<T extends Comparable<T>> {
     }
 
     private void swap(int i, int j) {
-        Handle temp = datos.get(i);
-        datos.set(i, datos.get(j));
-        datos.set(j, temp);
-        datos.get(i).indice = i;
-        datos.get(j).indice = j;
+        Nodo temp = heap.get(i);
+        heap.set(i, heap.get(j));
+        heap.set(j, temp);
+        heap.get(i).indice = i;
+        heap.get(j).indice = j;
     }
 
     private void construirHeap() {
-        for (int i = padre(datos.size() - 1); i >= 0; i--) {
+        for (int i = padre(heap.size() - 1); i >= 0; i--) {
             heapifyDown(i);
         }
     }
 
     public boolean estaVacio() {
-        return datos.isEmpty();
+        return heap.isEmpty();
     }
 
     public int tamaño() {
-        return datos.size();
+        return heap.size();
     }
 
     public void reubicar(Handle h) {
-        heapifyUp(h.indice);
-        heapifyDown(h.indice);
+        heapifyUp(h.nodo.indice);
+        heapifyDown(h.nodo.indice);
     }
 }
