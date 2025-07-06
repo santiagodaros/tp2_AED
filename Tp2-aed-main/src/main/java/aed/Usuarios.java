@@ -1,23 +1,23 @@
 package aed;
-import aed.Heap.Handle;
+import java.util.ArrayList;
 
 public class Usuarios {
-    private Heap<Usuario>.Handle[] usuarios;
+    private ArrayList<Heap<Usuario>.Handle> usuarios;
     private Heap<Usuario> heap;
 
-    @SuppressWarnings("unchecked")
     public Usuarios(int cantUsuarios) {
-        this.usuarios = (Heap<Usuario>.Handle[]) new Heap.Handle[cantUsuarios];
+        this.usuarios = new ArrayList<>(cantUsuarios);
         this.heap = new Heap<>();
 
         for (int i = 0; i < cantUsuarios; i++) {
             Usuario u = new Usuario(i + 1);
-            this.usuarios[i] = heap.agregar(u);
+            Heap<Usuario>.Handle handle = heap.agregar(u);
+            usuarios.add(handle);
         }
     }
 
     public void actualizarUsuario(int id, int montoASumar) {
-        Heap<Usuario>.Handle handle = usuarios[id - 1];
+        Heap<Usuario>.Handle handle = usuarios.get(id - 1);
         Usuario u = handle.getValor();
         u.aumentarSaldo(montoASumar);
         heap.reubicar(handle);
