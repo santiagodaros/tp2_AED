@@ -6,14 +6,13 @@ public class Usuarios {
     private Heap<Usuario> heap;
 
     public Usuarios(int cantUsuarios) {
+        Usuario[] usuarios = new Usuario[cantUsuarios];
         this.usuarios = new ArrayList<>(cantUsuarios);
-        this.heap = new Heap<>();
-
         for (int i = 0; i < cantUsuarios; i++) {
             Usuario u = new Usuario(i + 1);
-            Heap<Usuario>.Handle handle = heap.agregar(u);
-            usuarios.add(handle);
+            usuarios[i] = u;
         }
+        heap = new Heap<Usuario>(usuarios,this.usuarios);
     }
 
     public void actualizarUsuario(int id, int montoASumar) {

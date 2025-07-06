@@ -5,7 +5,9 @@ public class Transaccion implements Comparable<Transaccion> {
     private int id_comprador;
     private int id_vendedor;
     private int monto;
+    
     private ListaEnlazada<Transaccion>.Handle handle;
+    private Heap<Transaccion>.Handle handleHeap; 
 
     public Transaccion(int id, int id_comprador, int id_vendedor, int monto) {
         this.id = id;
@@ -66,5 +68,12 @@ public class Transaccion implements Comparable<Transaccion> {
 
     public ListaEnlazada<Transaccion>.Handle getHandle() {
         return this.handle;
+    }
+    public void setHandleHeap(Heap<Transaccion>.Handle handle) {
+        this.handleHeap = handle;
+    }
+
+    public Heap<Transaccion>.Handle getHandleHeap() {
+        return this.handleHeap;
     }
 }

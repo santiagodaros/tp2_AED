@@ -10,25 +10,22 @@ public class Bloque {
 
     public Bloque(Transaccion[] transacciones) {
         this.transacciones = new ListaEnlazada<>();
-        this.heap = new Heap<>();
-        ArrayList<ListaEnlazada<Transaccion>.Handle> handles = new ArrayList<>();
-        for (Transaccion tx : transacciones) {
-            ListaEnlazada<Transaccion>.Handle handle = this.transacciones.agregar(tx);
-            tx.setHandle(handle);
-            handles.add(handle);
+        ArrayList<Heap<Transaccion>.Handle> heapHandles = new ArrayList<>();
+        this.heap = new Heap<>(transacciones,heapHandles);
+
+        for (int i = 0; i < transacciones.length; i++) {
+            Transaccion tx = transacciones[i];
+
+            ListaEnlazada<Transaccion>.Handle handleLista = this.transacciones.agregar(tx);
+            tx.setHandle(handleLista);
+
+            tx.setHandleHeap(heapHandles.get(i));
 
             if (!tx.esCreacion()) {
                 suma += tx.monto();
                 cantidad++;
             }
         }
-        Transaccion[] arregloTx = new Transaccion[handles.size()];
-        for (int i = 0; i < handles.size(); i++) {
-            arregloTx[i] = handles.get(i).getValor();
-        }
-
-        this.heap = new Heap<>(arregloTx);
-
     }
 
     public Transaccion txMayorValor() {

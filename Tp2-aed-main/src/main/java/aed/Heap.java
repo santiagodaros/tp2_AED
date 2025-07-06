@@ -34,11 +34,12 @@ public class Heap<T extends Comparable<T>> {
         heap = new ArrayList<>();
     }
 
-    public Heap(T[] arreglo) {
+    public Heap(T[] arreglo, ArrayList<Heap<T>.Handle> handlearray) {
         heap = new ArrayList<>();
-        for (T elem : arreglo) {
-            Nodo nodo = new Nodo(elem, heap.size());
+        for (int i=0; i<arreglo.length; i++) {
+            Nodo nodo = new Nodo(arreglo[i], i);
             heap.add(nodo);
+            handlearray.add(new Handle(nodo));
         }
         construirHeap();
     }
@@ -50,7 +51,7 @@ public class Heap<T extends Comparable<T>> {
     public Handle agregar(T valor) {
         Nodo nodo = new Nodo(valor, heap.size());
         heap.add(nodo);
-        heapifyUp(heap.size() - 1);
+        //heapifyUp(heap.size() - 1);
         return new Handle(nodo);
     }
 
