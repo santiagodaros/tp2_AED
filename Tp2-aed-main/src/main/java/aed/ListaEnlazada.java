@@ -33,17 +33,17 @@ public class ListaEnlazada<T> implements Iterable<T> {
         }
     }
 
-    public ListaEnlazada() {
+    public ListaEnlazada() { // O(1)
         primero = null;
         ultimo = null;
         longitud = 0;
     }
 
-    public int getLongitud() {
+    public int getLongitud() { // O(1)
         return longitud;
     }
 
-    public Handle agregar(T elem) {
+    public Handle agregar(T elem) { // O(1)
         Nodo nuevo = new Nodo(elem);
         if (primero == null) {
             primero = nuevo;
@@ -57,7 +57,7 @@ public class ListaEnlazada<T> implements Iterable<T> {
         return new Handle(nuevo);
     }
 
-    public void eliminar(Handle handle) {
+    public void eliminar(Handle handle) { // O(1)
         Nodo nodo = handle.nodo;
         if (nodo == null) return;
         if (nodo.ant != null) {
@@ -73,11 +73,11 @@ public class ListaEnlazada<T> implements Iterable<T> {
         longitud--;
     }
 
-    public T obtenerUltimo() {
+    public T obtenerUltimo() { // O(1)
         return (ultimo != null) ? ultimo.valor : null;
     }
 
-    public void eliminar(int i) {
+    public void eliminar(int i) { // O(n)
         if (i < 0 || primero == null) return;
 
         if (i == 0) {
@@ -113,7 +113,7 @@ public class ListaEnlazada<T> implements Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public Iterator<T> iterator() { // O(1)
         return new IteradorLista();
     }
 
@@ -121,12 +121,12 @@ public class ListaEnlazada<T> implements Iterable<T> {
         private Nodo actual = primero;
 
         @Override
-        public boolean hasNext() {
+        public boolean hasNext() { // O(1)
             return actual != null;
         }
 
         @Override
-        public T next() {
+        public T next() { // O(1)
             T valor = actual.valor;
             actual = actual.sig;
             return valor;

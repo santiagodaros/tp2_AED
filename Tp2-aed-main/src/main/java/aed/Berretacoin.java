@@ -36,7 +36,7 @@ public class Berretacoin {
         return blockchain.ultimoBloque().montoPromedio();
     }
 
-    public void hackearTx(){ //O(log(n) + O(log(p))
+    public void hackearTx(){ //O(log(n) + log(p))
         Transaccion eliminada = blockchain.ultimoBloque().hackearTx(); // O(log(n))
 
         if(eliminada.id_comprador() != 0){

@@ -4,7 +4,7 @@ public class Blockchain {
     ListaEnlazada<Bloque> blockchain;
     Bloque ultimoBloque;
 
-    public Blockchain(){
+    public Blockchain(){ // O(1)
         blockchain= new ListaEnlazada<>();
         ultimoBloque=null;
     }

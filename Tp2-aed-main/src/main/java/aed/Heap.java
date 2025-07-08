@@ -34,14 +34,14 @@ public class Heap<T extends Comparable<T>> {
         heap = new ArrayList<>();
     }
 
-    public Heap(T[] arreglo, ArrayList<Heap<T>.Handle> handlearray) {
-        heap = new ArrayList<>();
-        for (int i=0; i<arreglo.length; i++) {
-            Nodo nodo = new Nodo(arreglo[i], i);
-            heap.add(nodo);
-            handlearray.add(new Handle(nodo));
+    public Heap(T[] arreglo, ArrayList<Heap<T>.Handle> handlearray) { // O(n)
+        heap = new ArrayList<>(); // O(1)
+        for (int i=0; i<arreglo.length; i++) { // O(n)
+            Nodo nodo = new Nodo(arreglo[i], i); // O (1)
+            heap.add(nodo); // O(1)
+            handlearray.add(new Handle(nodo)); // O(1)
         }
-        construirHeap();
+        construirHeap(); // O(log n) 
     }
 
     private int padre(int i) { return (i - 1) / 2; }
@@ -51,7 +51,7 @@ public class Heap<T extends Comparable<T>> {
     public Handle agregar(T valor) {
         Nodo nodo = new Nodo(valor, heap.size());
         heap.add(nodo);
-        //heapifyUp(heap.size() - 1);
+        heapifyUp(heap.size() - 1);
         return new Handle(nodo);
     }
 
@@ -59,21 +59,21 @@ public class Heap<T extends Comparable<T>> {
         return heap.isEmpty() ? null : heap.get(0).valor;
     }
 
-    public T sacarMaximo() {
-        if (heap.isEmpty()) return null;
-        Nodo maxNodo = heap.get(0);
-        if (heap.size() == 1) {
-            heap.remove(0);
-            return maxNodo.valor;
+    public T sacarMaximo() { // O
+        if (heap.isEmpty()) return null; // O(1)
+        Nodo maxNodo = heap.get(0); // O(1)
+        if (heap.size() == 1) { // O(1)
+            heap.remove(0); // O(1)
+            return maxNodo.valor; // O(1)
         }
-        Nodo ultimo = heap.remove(heap.size() - 1);
-        heap.set(0, ultimo);
-        ultimo.indice = 0;
-        heapifyDown(0);
+        Nodo ultimo = heap.remove(heap.size() - 1); // O(1)
+        heap.set(0, ultimo); // O(1)
+        ultimo.indice = 0; // O(1)
+        heapifyDown(0); // O(log n)
         return maxNodo.valor;
     }
 
-    private void heapifyDown(int i) {
+    private void heapifyDown(int i) { // O(log n)
         int max = i;
         int izq = hijoIzq(i);
         int der = hijoDer(i);
@@ -91,7 +91,7 @@ public class Heap<T extends Comparable<T>> {
         }
     }
 
-    private void heapifyUp(int i) {
+    private void heapifyUp(int i) { // O(log n)
         while (i > 0) {
             int p = padre(i);
             if (heap.get(i).valor.compareTo(heap.get(p).valor) > 0) {
@@ -111,22 +111,30 @@ public class Heap<T extends Comparable<T>> {
         heap.get(j).indice = j;
     }
 
-    private void construirHeap() {
-        for (int i = padre(heap.size() - 1); i >= 0; i--) {
-            heapifyDown(i);
+    private void construirHeap() { // O(n)
+        for (int i = padre(heap.size() - 1); i >= 0; i--) { // O(n)
+            heapifyDown(i); // O(log n)
         }
     }
 
-    public boolean estaVacio() {
+    public boolean estaVacio() { // O(1)
         return heap.isEmpty();
     }
 
-    public int tamaño() {
+    public int tamaño() { // O(1)
         return heap.size();
     }
 
-    public void reubicar(Handle h) {
-        heapifyUp(h.nodo.indice);
-        heapifyDown(h.nodo.indice);
+    public void reubicar(Handle handle) { // O(log n)
+    int i = handle.nodo.indice; // Índice actual del nodo
+    
+    // 1. Verificar si debe subir (comparar con el padre)
+    if (i > 0 && handle.nodo.valor.compareTo(heap.get(padre(i)).valor) > 0) {
+        heapifyUp(i); // Subir hacia la raíz
+    } 
+    // 2. Si no sube, verificar si debe bajar (heapifyDown)
+    else {
+        heapifyDown(i); // Bajar hacia las hojas
     }
 }
+    }

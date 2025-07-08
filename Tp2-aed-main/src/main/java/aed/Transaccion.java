@@ -5,18 +5,16 @@ public class Transaccion implements Comparable<Transaccion> {
     private int id_comprador;
     private int id_vendedor;
     private int monto;
-    
     private ListaEnlazada<Transaccion>.Handle handle;
-    private Heap<Transaccion>.Handle handleHeap; 
 
-    public Transaccion(int id, int id_comprador, int id_vendedor, int monto) {
+    public Transaccion(int id, int id_comprador, int id_vendedor, int monto) { // O(1)
         this.id = id;
         this.id_comprador = id_comprador;
         this.id_vendedor = id_vendedor;
         this.monto = monto;
     }
 
-    public Transaccion(Transaccion transaccion) {
+    public Transaccion(Transaccion transaccion) { // O(1)
         this.id = transaccion.id_transaccion();
         this.id_comprador = transaccion.id_comprador();
         this.id_vendedor = transaccion.id_vendedor();
@@ -24,7 +22,7 @@ public class Transaccion implements Comparable<Transaccion> {
     }
 
     @Override
-    public int compareTo(Transaccion otra) {
+    public int compareTo(Transaccion otra) { // O(1)
         if (this.monto > otra.monto) return 1;
         if (this.monto < otra.monto) return -1;
         if (this.id > otra.id) return 1;
@@ -32,7 +30,7 @@ public class Transaccion implements Comparable<Transaccion> {
         return 0;
     }
 
-    public boolean equals(Object otra) {
+    public boolean equals(Object otra) { // O(1)
         boolean otraIsNull=(otra==null);
         boolean claseDistinta=otra.getClass()!=this.getClass();
         if (otraIsNull||claseDistinta){
@@ -42,38 +40,31 @@ public class Transaccion implements Comparable<Transaccion> {
 
         return otraTx.id==id;
     }
-    public int id_transaccion(){
+    public int id_transaccion(){ // O(1)
         return id;
     }
 
-    public int monto() {
+    public int monto() { // O(1)
         return monto;
     }
 
-    public int id_comprador() {
+    public int id_comprador() { // O(1)
         return id_comprador;
     }
     
-    public int id_vendedor() {
+    public int id_vendedor() { // O(1)
         return id_vendedor;
     }
 
-    public boolean esCreacion(){
+    public boolean esCreacion(){ // O(1) 
         return id_comprador==0;
     }
     
-    public void setHandle(ListaEnlazada<Transaccion>.Handle handle) {
+    public void setHandle(ListaEnlazada<Transaccion>.Handle handle) {// O(1)
         this.handle = handle;
     }
 
-    public ListaEnlazada<Transaccion>.Handle getHandle() {
+    public ListaEnlazada<Transaccion>.Handle getHandle() {// O(1)
         return this.handle;
-    }
-    public void setHandleHeap(Heap<Transaccion>.Handle handle) {
-        this.handleHeap = handle;
-    }
-
-    public Heap<Transaccion>.Handle getHandleHeap() {
-        return this.handleHeap;
     }
 }
