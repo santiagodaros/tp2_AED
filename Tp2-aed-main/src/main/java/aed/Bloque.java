@@ -1,6 +1,5 @@
 package aed;
 
-import java.util.ArrayList;
 
 public class Bloque {
     private int suma = 0;
@@ -10,8 +9,7 @@ public class Bloque {
 
     public Bloque(Transaccion[] transacciones) { //  O(n)
         this.transacciones = new ListaEnlazada<>();
-        ArrayList<Heap<Transaccion>.Handle> handles = new ArrayList<>();
-        this.heap = new Heap<>(transacciones, handles); // O(n)
+        this.heap = new Heap<>(transacciones); // O(n)
 
         for (int i = 0; i < transacciones.length; i++) { // O(n)
             Transaccion tx = transacciones[i]; // O(1)

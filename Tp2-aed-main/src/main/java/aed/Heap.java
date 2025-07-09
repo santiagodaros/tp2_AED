@@ -34,7 +34,15 @@ public class Heap<T extends Comparable<T>> {
         heap = new ArrayList<>();
     }
 
-    public Heap(T[] arreglo, ArrayList<Heap<T>.Handle> handlearray) { // O(n)
+    public Heap(T[] arreglo) { // O(n) //Constructor para transacciones
+        heap = new ArrayList<>(); // O(1)
+        for (int i=0; i<arreglo.length; i++) { // O(n)
+            Nodo nodo = new Nodo(arreglo[i], i); // O (1)
+            heap.add(nodo); // O(1)
+        }
+        construirHeap(); // O(log n) 
+    }
+    public Heap(T[] arreglo, ArrayList<Heap<T>.Handle> handlearray) { // O(n) //Constructor para usuarios
         heap = new ArrayList<>(); // O(1)
         for (int i=0; i<arreglo.length; i++) { // O(n)
             Nodo nodo = new Nodo(arreglo[i], i); // O (1)
@@ -66,7 +74,7 @@ public class Heap<T extends Comparable<T>> {
             heap.remove(0); // O(1)
             return maxNodo.valor; // O(1)
         }
-        Nodo ultimo = heap.remove(heap.size() - 1); // O(1)
+        Nodo ultimo = heap.remove(heap.size() - 1); // O(1) porque es el ultimo elemento esto reduce el tamaño del array en 1, si uso remove en otro que no sea el ultimo es O(n)
         heap.set(0, ultimo); // O(1)
         ultimo.indice = 0; // O(1)
         heapifyDown(0); // O(log n)
@@ -126,15 +134,15 @@ public class Heap<T extends Comparable<T>> {
     }
 
     public void reubicar(Handle handle) { // O(log n)
-    int i = handle.nodo.indice; // Índice actual del nodo
+    int i = handle.nodo.indice; // Obtengo el indice
     
-    // 1. Verificar si debe subir (comparar con el padre)
+    // Veo si tiene que subir
     if (i > 0 && handle.nodo.valor.compareTo(heap.get(padre(i)).valor) > 0) {
-        heapifyUp(i); // Subir hacia la raíz
+        heapifyUp(i);
     } 
-    // 2. Si no sube, verificar si debe bajar (heapifyDown)
+    // Si no , baja o se mantiene
     else {
-        heapifyDown(i); // Bajar hacia las hojas
+        heapifyDown(i);
     }
 }
     }
